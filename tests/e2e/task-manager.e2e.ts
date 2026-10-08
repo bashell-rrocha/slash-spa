@@ -64,7 +64,7 @@ test.describe('Task Manager E2E', () => {
     await expect(page).toHaveURL('/tasks');
 
     // Act - Edit the task
-    await page.getByRole('button', { name: 'Editar' }).click();
+    await page.getByRole('link', { name: 'Editar' }).click();
     await page.getByLabel('Título').fill('Tarefa editada');
     await page.getByLabel('Status').selectOption('in_progress');
     await page.getByRole('button', { name: 'Salvar Alterações' }).click();
@@ -72,7 +72,7 @@ test.describe('Task Manager E2E', () => {
     // Assert
     await expect(page).toHaveURL('/tasks');
     await expect(page.getByText('Tarefa editada')).toBeVisible();
-    await expect(page.getByText('Em Progresso')).toBeVisible();
+    await expect(page.getByRole('listitem').getByText('Em Progresso')).toBeVisible();
   });
 
   test('should delete a task', async ({ page }) => {
@@ -189,8 +189,14 @@ test.describe('Task Manager E2E', () => {
   });
 
   test('should navigate between pages using links', async ({ page }) => {
-    // Arrange
-    await page.goto('/');
+    // Arrange - o link "Ver Todas as Tarefas" só aparece com tarefas cadastradas
+    await page.goto('/tasks/new');
+    await page.getByLabel('Título').fill('Tarefa para navegar');
+    await page.getByLabel('Descrição').fill('Descrição da tarefa para navegar');
+    await page.getByRole('button', { name: 'Criar Tarefa' }).click();
+    await expect(page).toHaveURL('/tasks');
+    await page.getByRole('link', { name: 'Dashboard' }).click();
+    await expect(page).toHaveURL('/');
 
     // Act & Assert - Dashboard to Tasks
     await page.getByRole('link', { name: 'Ver Todas as Tarefas' }).first().click();
@@ -219,10 +225,12 @@ test.describe('Task Manager E2E', () => {
     await page.goto('/');
 
     // Assert - Should only show 5 most recent tasks
-    await expect(page.getByText('Tarefa 7')).toBeVisible();
-    await expect(page.getByText('Tarefa 6')).toBeVisible();
-    await expect(page.getByText('Tarefa 5')).toBeVisible();
-    await expect(page.getByText('Tarefa 4')).toBeVisible();
-    await expect(page.getByText('Tarefa 3')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Tarefa 7', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Tarefa 6', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Tarefa 5', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Tarefa 4', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Tarefa 3', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Tarefa 2', exact: true })).not.toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Tarefa 1', exact: true })).not.toBeVisible();
   });
 });
