@@ -3,7 +3,6 @@ import { cssModuleTypesPlugin } from "../plugins/css-types";
 import { watch as fsWatch } from "node:fs";
 import { stat, readdir, writeFile, cp, rm, mkdir } from "node:fs/promises";
 import { resolve, join, extname, basename } from "node:path";
-import type { BunPlugin } from "bun";
 
 type BuildConfig = Parameters<typeof Bun.build>[0];
 
@@ -12,25 +11,6 @@ const DIST = resolve(ROOT, "dist");
 const PUBLIC = resolve(ROOT, "public");
 const SRC = resolve(ROOT, "src");
 const MANIFEST = join(DIST, ".css-dev.json");
-
-// Plugin para resolver "slash" para o código fonte TypeScript em desenvolvimento
-const resolveSlashSourcePlugin: BunPlugin = {
-  name: "resolve-slash-source",
-  setup(build) {
-    // Resolve "slash" para o source
-    build.onResolve({ filter: /^slash$/ }, () => {
-      return {
-        path: resolve(import.meta.dir, "../../slash/src/index.ts"),
-      };
-    });
-    // Resolve "slash/router" para o source
-    build.onResolve({ filter: /^slash\/router$/ }, () => {
-      return {
-        path: resolve(import.meta.dir, "../../slash/src/router/index.ts"),
-      };
-    });
-  },
-};
 
 const buildConfig = {
   entrypoints: [resolve(SRC, "client.ts")],
@@ -45,7 +25,7 @@ const buildConfig = {
     asset: "[dir]/[name].[ext]",
   },
   external: [],
-  plugins: [resolveSlashSourcePlugin, cssModuleTypesPlugin({ verbose: true })],
+  plugins: [cssModuleTypesPlugin({ verbose: true })],
   define: {
     "process.env.NODE_ENV": JSON.stringify("development"),
     __DEV__: "true", // flag útil para código condicional
