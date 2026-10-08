@@ -126,8 +126,9 @@ export function Tasks() {
       </div>
 
       <div class=${styles.filter}>
-        <label>Filtrar por status:</label>
+        <label for="status-filter">Filtrar por status:</label>
         <select
+          id="status-filter"
           class=${styles.select}
           value=${statusReactive}
           onChange=${(e: Event) => {
