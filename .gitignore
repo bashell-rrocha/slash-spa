@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Generated TypeScript types
+src/**/*.css.d.ts
+
+# TypeScript
+*.tsbuildinfo
+.tsc-cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# relatórios gerados pelo Playwright
+playwright-report/
+test-results/
