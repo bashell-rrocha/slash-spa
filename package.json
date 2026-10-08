@@ -1,0 +1,26 @@
+{
+  "name": "slash-spa",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run scripts/dev.ts",
+    "build": "bun run scripts/build.ts",
+    "start": "bun run src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test --preload ./tests/setup.ts src/",
+    "test:e2e": "playwright test",
+    "test:all": "bun run test && bun run test:e2e"
+  },
+  "dependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "@_bashell/slash": "workspace:*"
+  },
+  "devDependencies": {
+    "@happy-dom/global-registrator": "^20.3.3",
+    "@playwright/test": "^1.57.0",
+    "@types/bun": "latest",
+    "playwright": "^1.57.0",
+    "typescript": "^5.6.2"
+  }
+}
