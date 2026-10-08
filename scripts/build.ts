@@ -1,7 +1,8 @@
 // apps/playground/scripts/build.ts
 import { cssModuleTypesPlugin } from "../plugins/css-types";
 import { resolve } from "node:path";
-import { cp, rm, mkdir } from "node:fs/promises";
+import { basename } from "node:path";
+import { cp, rm, mkdir, readFile, writeFile } from "node:fs/promises";
 
 type BuildConfig = Parameters<typeof Bun.build>[0];
 
@@ -49,6 +50,31 @@ if (!result.success) {
 // Copiar arquivos estáticos de public/ para dist/
 console.log("[build] Copying static files from public/ to dist/...");
 await cp(PUBLIC, DIST, { recursive: true, force: true });
+
+// O build gera nomes com hash: reescrever o index.html para apontar para os arquivos reais
+const entryJs = result.outputs.find(o => o.kind === "entry-point");
+if (!entryJs) {
+  console.error("[build] ❌ Entry point output not found");
+  process.exit(1);
+}
+const cssLinks = result.outputs
+  .filter(o => o.path.endsWith(".css"))
+  .map(o => `<link rel="stylesheet" href="/${basename(o.path)}">`)
+  .join("");
+let indexHtml = await readFile(resolve(DIST, "index.html"), "utf8");
+if (!indexHtml.includes("/client.js")) {
+  console.error('[build] ❌ index.html não referencia "/client.js"; não há o que reescrever');
+  process.exit(1);
+}
+indexHtml = indexHtml.replace("/client.js", () => `/${basename(entryJs.path)}`);
+if (cssLinks) {
+  if (!indexHtml.includes("</head>")) {
+    console.error("[build] ❌ index.html não tem </head>; não há onde injetar o CSS");
+    process.exit(1);
+  }
+  indexHtml = indexHtml.replace("</head>", () => `${cssLinks}\n</head>`);
+}
+await writeFile(resolve(DIST, "index.html"), indexHtml, "utf8");
 
 const elapsed = (performance.now() - startTime).toFixed(0);
 const totalSize = result.outputs.reduce((sum, o) => sum + (o.size || 0), 0);

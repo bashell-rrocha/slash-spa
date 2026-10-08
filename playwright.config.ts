@@ -2,6 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests/e2e',
+  // Os arquivos E2E usam o sufixo .e2e.ts
+  testMatch: '**/*.e2e.ts',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -20,8 +22,9 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'bun run start',
+    // Fluxo de produção: o build gera nomes com hash e reescreve o index.html
+    command: 'bun run build && bun run start',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
   },
 });
