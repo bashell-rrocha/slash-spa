@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Form Submit</title>
+</head>
+<body>
+  <h1>Test Form</h1>
+  <div id="app"></div>
+
+  <script type="module">
+    import { html, render } from '/client.js';
+
+    function TestForm() {
+      function handleSubmit(e) {
+        console.log('[TestForm] handleSubmit chamado!', e.type);
+        e.preventDefault();
+        console.log('[TestForm] preventDefault chamado');
+        alert('Form submitted! URL should not change.');
+      }
+
+      return html`
+        <form onSubmit=${handleSubmit}>
+          <input type="text" name="test" value="test value" />
+          <button type="submit">Submit</button>
+        </form>
+      `;
+    }
+
+    render(html`<${TestForm} />`, document.getElementById('app'));
+    console.log('[App] Rendered');
+  </script>
+</body>
+</html>
