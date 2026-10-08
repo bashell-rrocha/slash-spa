@@ -1,0 +1,14 @@
+# Configuração do Bun para desenvolvimento
+# Força o uso do código fonte TypeScript do pacote slash ao invés do dist minificado
+
+[module]
+[module.resolution]
+# Em desenvolvimento, usa o código fonte TS ao invés do dist
+alias = { "slash" = "../slash/src/index.ts" }
+
+[test]
+# Configura ambiente DOM para testes unitários
+preload = ["./tests/setup.ts"]
+# Exclui testes E2E do Playwright (devem rodar com playwright test)
+# Arquivos E2E usam extensão .e2e.ts ao invés de .test.ts
+exclude = ["tests/e2e/**/*.e2e.ts"]
