@@ -45,6 +45,8 @@ const buildConfig = {
     asset: "[dir]/[name].[ext]",
   },
   external: [],
+  // Resolve o core pelo código-fonte (condição "bun" do package.json), não pelo dist
+  conditions: ["bun"],
   plugins: [resolveSlashSourcePlugin, cssModuleTypesPlugin({ verbose: true })],
   define: {
     "process.env.NODE_ENV": JSON.stringify("development"),
