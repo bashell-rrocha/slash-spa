@@ -22,9 +22,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    // O dev reconstrói o bundle a cada subida (nomes sem hash, como o index.html espera)
-    // e já inicia o servidor; `start` serve um dist antigo e com nomes hasheados
-    command: 'bun run dev',
+    // Fluxo de produção: o build gera nomes com hash e reescreve o index.html
+    command: 'bun run build && bun run start',
     url: 'http://localhost:3000',
     reuseExistingServer: false,
   },
