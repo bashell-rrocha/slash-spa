@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Porta do servidor de teste: PORT no ambiente, 3000 por padrão
+const PORT = Number(process.env.PORT) || 3000;
+const BASE_URL = `http://localhost:${PORT}`;
+
 export default defineConfig({
   testDir: './tests/e2e',
   // Os arquivos E2E usam o sufixo .e2e.ts
@@ -10,7 +14,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: BASE_URL,
     trace: 'on-first-retry',
   },
 
@@ -24,7 +28,8 @@ export default defineConfig({
   webServer: {
     // Fluxo de produção: o build gera nomes com hash e reescreve o index.html
     command: 'bun run build && bun run start',
-    url: 'http://localhost:3000',
+    url: BASE_URL,
+    env: { PORT: String(PORT) },
     reuseExistingServer: false,
   },
 });

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@biomejs/biome": "^2.3.11",
-    "@_bashell/slash": "workspace:*"
+    "@_bashell/slash": "^0.0.6"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^20.3.3",
