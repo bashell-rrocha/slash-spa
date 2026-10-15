@@ -8,9 +8,12 @@
     "build": "bun run scripts/build.ts",
     "start": "bun run src/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "bun test --preload ./tests/setup.ts src/",
+    "test": "bun test --preload ./tests/setup.ts src/ examples/",
     "test:e2e": "playwright test",
-    "test:all": "bun run test && bun run test:e2e"
+    "test:all": "bun run test && bun run test:e2e",
+    "ui:build": "bun run examples/slash-ui/build.ts",
+    "ui:build:file": "bun run examples/slash-ui/build.ts --file",
+    "ui:serve": "bun run examples/slash-ui/serve.ts"
   },
   "dependencies": {
     "@biomejs/biome": "^2.3.11",
@@ -21,6 +24,7 @@
     "@playwright/test": "^1.57.0",
     "@types/bun": "latest",
     "playwright": "^1.57.0",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "@_bashell/slash-ui": "workspace:*"
   }
 }

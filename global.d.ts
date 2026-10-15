@@ -6,6 +6,12 @@ declare module "*.module.css" {
 // Flag de desenvolvimento definida pelo bundler
 declare const __DEV__: boolean;
 
+// Lido pelo renderer do @_bashell/slash-ui (view): o spa não o define, e a detecção cai em `document`
+declare const __SERVER__: boolean;
+
+// Build de file:// do site de exemplo do slash-ui (examples/slash-ui): roteador em modo hash, sem service worker
+declare const __HASH__: boolean;
+
 // JSX declarations for TypeScript without React
 declare namespace JSX {
   type Element = HTMLElement | string | null;
@@ -344,4 +350,3 @@ declare namespace JSX {
     xmlns?: string;
   }
 }
-
