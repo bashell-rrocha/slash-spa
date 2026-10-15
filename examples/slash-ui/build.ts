@@ -1,5 +1,5 @@
 import { EXAMPLE_APP, exampleSite, serviceWorkerSource, webManifest } from "@_bashell/slash-ui/host";
-import { copyHostAssets, themeColors } from "@_bashell/slash-ui/host/node";
+import { contentVersion, copyHostAssets, themeColors } from "@_bashell/slash-ui/host/node";
 import { mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { cssModuleTypesPlugin } from "../../plugins/css-types";
@@ -91,7 +91,9 @@ if (!FILE) {
   );
   // O servidor do spa devolve o index.html em toda rota: o pré-cache guarda cada rota do app com ele
   const precache = [...pages.filter((p) => p.app).map((p) => p.path), ...assets];
-  writeFileSync(join(OUT, "app", "sw.js"), serviceWorkerSource({ precache, scope: EXAMPLE_APP.startUrl }));
+  // version: o conteúdo dos arquivos (tema, fontes e ícones mudam sem mudar de nome)
+  const version = contentVersion(OUT, assets);
+  writeFileSync(join(OUT, "app", "sw.js"), serviceWorkerSource({ precache, scope: EXAMPLE_APP.startUrl, version }));
 }
 console.log(
   `[ui:build${FILE ? ":file" : ""}] ${outputs.length} arquivos do bundle em ${relative(process.cwd(), OUT)}/`,

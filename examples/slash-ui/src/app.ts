@@ -14,12 +14,16 @@ export interface SiteMount {
 
 const INDEX_THEME = { theme: "brisa", mode: "light", lang: "pt-BR" };
 
-function applyPage(page: SitePage | undefined): void {
+/** O <html> (tema, modo, idioma) e o título da página; sem página, os do índice (ou do 404, pelo fallbackTitle). */
+export function applyPage(
+  page: Pick<SitePage, "lang" | "theme" | "mode" | "title"> | undefined,
+  fallbackTitle = "slash-ui: site de exemplo",
+): void {
   const attrs = page
-    ? htmlAttrs(page)
+    ? htmlAttrs(page as SitePage)
     : { lang: INDEX_THEME.lang, "data-theme": INDEX_THEME.theme, "data-mode": INDEX_THEME.mode };
   for (const [name, value] of Object.entries(attrs)) document.documentElement.setAttribute(name, value);
-  document.title = page?.title ?? "slash-ui: site de exemplo";
+  document.title = page?.title ?? fallbackTitle;
 }
 
 export function mountSite(root: Element, opts: { hash: boolean; initialPath?: string }): SiteMount {
@@ -29,13 +33,19 @@ export function mountSite(root: Element, opts: { hash: boolean; initialPath?: st
     routes: [
       { path: "/", component: () => siteIndex(pages, link) },
       ...pages.map((page) => ({ path: page.path, component: () => renderPage(page), meta: { page: page.path } })),
-      { path: "/404", component: () => view`<main><h1>Página não encontrada</h1></main>` },
+      { path: "/404", component: () => view`<main><h1>Página não encontrada</h1></main>`, meta: { notFound: true } },
     ],
     mode: opts.hash ? "hash" : "history",
     fallback: "/404",
     initialPath: opts.initialPath,
   });
-  const sync = () => applyPage(pages.find((page) => page.path === router.get().meta.page));
+  const sync = () => {
+    const { meta } = router.get();
+    applyPage(
+      pages.find((page) => page.path === meta.page),
+      meta.notFound ? "Página não encontrada" : undefined,
+    );
+  };
   router.watch(sync);
   sync();
   render(html`<${Router} router=${router} />`, root);

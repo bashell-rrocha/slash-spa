@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { mountSite } from "./src/app";
+import { applyPage, mountSite } from "./src/app";
 
 // Hospedeiro de exemplo do slash-ui no slash-spa: o roteador monta cada página do site de exemplo e, a cada
 // navegação, troca o tema, o modo, o idioma e o título do documento.
@@ -65,6 +65,20 @@ describe("mountSite (slash-spa)", () => {
 
     // Assert
     expect(root.textContent).toContain("Página não encontrada");
+    expect(document.title).toBe("Página não encontrada");
     root.remove();
+  });
+});
+
+describe("applyPage", () => {
+  test("troca o lang do <html> junto com o tema (página em outro idioma)", () => {
+    // Arrange
+    const page = { lang: "en", theme: "brisa", mode: "dark", title: "Today" } as Parameters<typeof applyPage>[0];
+
+    // Act
+    applyPage(page);
+
+    // Assert
+    expect([html.lang, html.getAttribute("data-mode"), document.title]).toEqual(["en", "dark", "Today"]);
   });
 });
