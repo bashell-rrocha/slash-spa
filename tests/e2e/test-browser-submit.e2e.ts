@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("form submit deve funcionar no navegador real", async ({ page }) => {
   // Navegar para a página
-  await page.goto("http://localhost:3000/tasks/new");
+  await page.goto("/tasks/new");
 
   // Aguardar o form carregar
   await page.waitForSelector("form");

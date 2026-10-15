@@ -1,4 +1,4 @@
-// apps/playground/scripts/build.ts
+// scripts/build.ts
 import { cssModuleTypesPlugin } from "../plugins/css-types";
 import { resolve } from "node:path";
 import { basename } from "node:path";
