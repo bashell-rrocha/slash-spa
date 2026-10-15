@@ -17,7 +17,7 @@ test.describe('Form Submit Real Test', () => {
     });
 
     // Navegarnovamente para a página de nova tarefa
-    await page.goto('http://localhost:3000/tasks/new');
+    await page.goto('/tasks/new');
     await page.waitForLoadState('networkidle');
 
     // Reset flag
@@ -64,6 +64,6 @@ test.describe('Form Submit Real Test', () => {
 
     // Assert
     expect(pageReloaded).toBe(false);
-    expect(urlAfterClick).toBe('http://localhost:3000/tasks');
+    expect(new URL(urlAfterClick).pathname).toBe('/tasks');
   });
 });
