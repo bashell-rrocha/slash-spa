@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
+import { parsePort } from './src/port';
 
-// Porta do servidor de teste: PORT no ambiente, 3000 por padrão
-const PORT = Number(process.env.PORT) || 3000;
+// Porta do servidor de teste: PORT no ambiente, 3000 por padrão (valor inválido é recusado)
+const PORT = parsePort(process.env.PORT);
 const BASE_URL = `http://localhost:${PORT}`;
 
 export default defineConfig({

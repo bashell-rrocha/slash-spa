@@ -1,7 +1,18 @@
-// apps/playground/src/server.ts
+// src/server.ts
+import { parsePort } from "./port";
+
 const DIST = new URL("../dist/", import.meta.url);
 const INDEX = new URL("../dist/index.html", import.meta.url);
 const MANIFEST = new URL("../dist/.css-dev.json", import.meta.url);
+
+// Porta do servidor: PORT no ambiente, 3000 por padrão; valor inválido encerra com erro
+let PORT: number;
+try {
+  PORT = parsePort(process.env.PORT);
+} catch (error) {
+  console.error(`✖ ${(error as Error).message}`);
+  process.exit(1);
+}
 
 function injectCss(html: string, css: string[]): string {
   if (!css.length) return html;
@@ -31,9 +42,8 @@ async function serveIndex(): Promise<Response> {
   return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 }
 
-Bun.serve({
-  // Porta do servidor: PORT no ambiente, 3000 por padrão
-  port: Number(process.env.PORT) || 3000,
+const server = Bun.serve({
+  port: PORT,
   async fetch(req) {
     const url = new URL(req.url);
     if (url.pathname === "/" || url.pathname === "/index.html") {
@@ -53,5 +63,5 @@ Bun.serve({
   }
 });
 
-console.log("▶ http://localhost:3000");
+console.log(`▶ http://localhost:${server.port}`);
 
