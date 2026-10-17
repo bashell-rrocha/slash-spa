@@ -1,7 +1,7 @@
 import { html } from "@_bashell/slash/core";
 import { TaskForm } from "../components/TaskForm";
 import { getTaskById, updateTask } from "../store/tasks";
-import { TaskFormData } from "../types/task";
+import type { TaskFormData } from "../types/task";
 import styles from "../styles/tasks.module.css";
 
 export function TaskEdit({ id }: { id: string }) {

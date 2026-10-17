@@ -19,7 +19,6 @@ test.describe('Task Manager E2E', () => {
 
   test('should create a new task', async ({ page }) => {
     // Arrange
-    page.on('console', msg => console.log('[BROWSER]', msg.text()));
     await page.goto('/');
 
     // Act
@@ -30,12 +29,9 @@ test.describe('Task Manager E2E', () => {
     await page.getByLabel('Descrição').fill('Esta é uma descrição detalhada da tarefa');
     await page.getByLabel('Status').selectOption('pending');
 
-    console.log('[TEST] Clicando no botão Criar Tarefa');
     await page.getByRole('button', { name: 'Criar Tarefa' }).click();
-    console.log('[TEST] Botão clicado, aguardando navegação...');
 
     await page.waitForTimeout(1000);
-    console.log('[TEST] URL atual:', page.url());
 
     // Assert
     await expect(page).toHaveURL('/tasks');

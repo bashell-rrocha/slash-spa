@@ -7,11 +7,6 @@ import { TaskEdit } from "./pages/TaskEdit";
 import { TaskNew } from "./pages/TaskNew";
 import { NotFound } from "./pages/NotFound";
 
-if (__DEV__) {
-  console.log("[DEV] Task Manager iniciando em modo desenvolvimento");
-  console.log("[DEV] Ambiente:", process.env.NODE_ENV);
-}
-
 // Create router with routes
 const router = createRouter({
   routes: [
@@ -29,5 +24,7 @@ function App() {
   return html`<${Router} router=${router} />`;
 }
 
-render(html`<${App} />`, document.getElementById("app")!);
+const root = document.getElementById("app");
+if (!root) throw new Error("Elemento #app não encontrado");
+render(html`<${App} />`, root);
 

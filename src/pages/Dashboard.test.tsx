@@ -85,7 +85,7 @@ describe("Dashboard - Reactive States", () => {
   test("reactive states should update when tasks are deleted", () => {
     // Arrange
     const task1 = addTask({ title: "Task 1", description: "Description 1", status: TaskStatus.Pending });
-    const task2 = addTask({ title: "Task 2", description: "Description 2", status: TaskStatus.InProgress });
+    addTask({ title: "Task 2", description: "Description 2", status: TaskStatus.InProgress });
 
     expect(totalTasks.get()).toBe(2);
     expect(pendingTasks.get()).toBe(1);

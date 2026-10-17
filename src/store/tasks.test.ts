@@ -97,10 +97,10 @@ describe("Task Store", () => {
 
       // Assert
       expect(updatedTask).not.toBeNull();
-      expect(updatedTask!.title).toBe("Updated Title");
-      expect(updatedTask!.description).toBe("Original Description");
-      expect(updatedTask!.status).toBe(TaskStatus.InProgress);
-      expect(updatedTask!.updatedAt.getTime()).toBeGreaterThanOrEqual(task.createdAt.getTime());
+      expect(updatedTask?.title).toBe("Updated Title");
+      expect(updatedTask?.description).toBe("Original Description");
+      expect(updatedTask?.status).toBe(TaskStatus.InProgress);
+      expect(updatedTask?.updatedAt.getTime()).toBeGreaterThanOrEqual(task.createdAt.getTime());
     });
 
     test("should return null for non-existent task", () => {
@@ -124,8 +124,8 @@ describe("Task Store", () => {
 
       // Assert
       const updated = getTaskById(task.id);
-      expect(updated!.description).toBe("Description");
-      expect(updated!.status).toBe(TaskStatus.Pending);
+      expect(updated?.description).toBe("Description");
+      expect(updated?.status).toBe(TaskStatus.Pending);
     });
   });
 
@@ -186,8 +186,8 @@ describe("Task Store", () => {
 
       // Assert
       expect(found).not.toBeNull();
-      expect(found!.id).toBe(task.id);
-      expect(found!.title).toBe("Test Task");
+      expect(found?.id).toBe(task.id);
+      expect(found?.title).toBe("Test Task");
     });
 
     test("should return null for non-existent task", () => {
@@ -308,7 +308,7 @@ describe("Task Store", () => {
       // Assert
       const stored = localStorage.getItem("task-manager-tasks");
       expect(stored).toBeDefined();
-      const parsed = JSON.parse(stored!);
+      const parsed = JSON.parse(String(stored));
       expect(parsed).toHaveLength(1);
       expect(parsed[0].title).toBe("Test Task");
     });
@@ -322,7 +322,7 @@ describe("Task Store", () => {
 
       // Assert
       const stored = localStorage.getItem("task-manager-tasks");
-      const parsed = JSON.parse(stored!);
+      const parsed = JSON.parse(String(stored));
       expect(parsed[0].title).toBe("Updated");
     });
 
@@ -335,7 +335,7 @@ describe("Task Store", () => {
 
       // Assert
       const stored = localStorage.getItem("task-manager-tasks");
-      const parsed = JSON.parse(stored!);
+      const parsed = JSON.parse(String(stored));
       expect(parsed).toHaveLength(0);
     });
   });
