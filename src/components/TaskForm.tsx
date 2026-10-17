@@ -1,5 +1,5 @@
 import { html, createState } from "@_bashell/slash/core";
-import { TaskFormData, TaskStatus } from "../types/task";
+import { type TaskFormData, TaskStatus } from "../types/task";
 import styles from "../styles/tasks.module.css";
 
 type TaskFormProps = {
@@ -12,7 +12,7 @@ type TaskFormProps = {
 export function TaskForm({ mode, initialData, onSubmit, onCancel }: TaskFormProps) {
   // Desabilitar tracking automático para este componente
   // pois gerenciamos a reatividade manualmente via watch
-  (globalThis as any).__SLASH_TRACK_STATE__ = undefined;
+  (globalThis as { __SLASH_TRACK_STATE__?: unknown }).__SLASH_TRACK_STATE__ = undefined;
 
   const formState = createState({
     title: initialData?.title || "",

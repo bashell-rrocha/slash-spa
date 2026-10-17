@@ -8,7 +8,7 @@ describe("TaskForm", () => {
 
   beforeEach(() => {
     document.body.innerHTML = '<div id="app"></div>';
-    container = document.getElementById("app")!;
+    container = document.getElementById("app") as HTMLElement;
   });
 
   describe("Rendering", () => {

@@ -135,7 +135,7 @@ async function buildOnce(tag: string) {
   }
 }
 
-async function writeCssManifestFromOutputs(outputs: any[]) {
+async function writeCssManifestFromOutputs(outputs: Bun.BuildArtifact[]) {
   // pega todos os outputs .css desse build
   const cssFiles = outputs
     .map(o => String(o?.path || ""))

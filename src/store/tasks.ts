@@ -1,5 +1,7 @@
 import { createState } from "@_bashell/slash/core";
-import { Task, TaskFormData, TaskStatus, TaskSummary } from "../types/task";
+import { type Task, type TaskFormData, TaskStatus, type TaskSummary } from "../types/task";
+
+type StoredTask = Omit<Task, "createdAt" | "updatedAt"> & { createdAt: string; updatedAt: string };
 
 const STORAGE_KEY = "task-manager-tasks";
 
@@ -10,8 +12,8 @@ function loadFromStorage(): Task[] {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (!stored) return [];
 
-    const parsed = JSON.parse(stored);
-    return parsed.map((task: any) => ({
+    const parsed: StoredTask[] = JSON.parse(stored);
+    return parsed.map((task) => ({
       ...task,
       createdAt: new Date(task.createdAt),
       updatedAt: new Date(task.updatedAt),

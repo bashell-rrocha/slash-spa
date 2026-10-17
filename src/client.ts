@@ -29,5 +29,7 @@ function App() {
   return html`<${Router} router=${router} />`;
 }
 
-render(html`<${App} />`, document.getElementById("app")!);
+const root = document.getElementById("app");
+if (!root) throw new Error("Elemento #app não encontrado");
+render(html`<${App} />`, root);
 

@@ -51,7 +51,7 @@ const server = Bun.serve({
     }
     // estático da pasta dist
     try {
-      const fileUrl = new URL("." + url.pathname, DIST);
+      const fileUrl = new URL(`.${url.pathname}`, DIST);
       const file = Bun.file(fileUrl);
       if (await file.exists()) return new Response(file);
       // SPA fallback: retorna index.html para rotas não encontradas

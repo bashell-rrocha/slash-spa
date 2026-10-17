@@ -36,7 +36,7 @@ export function cssModuleTypesPlugin(
         const classes = extractClassNamesWithNesting(noGlobal);
 
         // 3) gera conteúdo do .d.ts
-        const dtsPath = args.path + ".d.ts";
+        const dtsPath = `${args.path}.d.ts`;
         const content =
 `// ⚠️ gerado automaticamente por slash-css-types (Bun plugin)
 // Fonte: ${args.path}
@@ -52,7 +52,7 @@ export default styles;
         if (prev !== content) {
           await writeFile(dtsPath, content, "utf8");
           if (verbose) {
-            const relRoot = (builder as any)?.config?.root || process.cwd();
+            const relRoot = builder.config?.root || process.cwd();
             const rel = relative(relRoot, dtsPath).split("\\").join("/");
             console.log("✓ css types:", rel);
           }
@@ -95,7 +95,7 @@ function stripIrrelevant(input: string): string {
     if (mode === "url") {
       if (c === "(") { urlDepth++; i++; continue; }
       if (c === ")") { urlDepth--; i++; if (urlDepth === 0) mode = "normal"; continue; }
-      i++; continue;
+      i++;
     }
   }
   return out;
