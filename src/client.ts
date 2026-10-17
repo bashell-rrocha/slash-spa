@@ -7,11 +7,6 @@ import { TaskEdit } from "./pages/TaskEdit";
 import { TaskNew } from "./pages/TaskNew";
 import { NotFound } from "./pages/NotFound";
 
-if (__DEV__) {
-  console.log("[DEV] Task Manager iniciando em modo desenvolvimento");
-  console.log("[DEV] Ambiente:", process.env.NODE_ENV);
-}
-
 // Create router with routes
 const router = createRouter({
   routes: [

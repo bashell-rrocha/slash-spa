@@ -6,16 +6,11 @@ import styles from "../styles/tasks.module.css";
 
 export function TaskNew() {
   function handleSubmit(data: TaskFormData) {
-    console.log("[TaskNew] handleSubmit recebido:", data);
-    const task = addTask(data);
-    console.log("[TaskNew] Task adicionada:", task);
-    console.log("[TaskNew] Navegando para /tasks");
+    addTask(data);
     window.location.href = "/tasks";
-    console.log("[TaskNew] Navegação concluída");
   }
 
   function handleCancel() {
-    console.log("[TaskNew] handleCancel chamado");
     window.location.href = "/tasks";
   }
 
