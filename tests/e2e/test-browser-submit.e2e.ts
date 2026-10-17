@@ -29,7 +29,7 @@ test("form submit deve funcionar no navegador real", async ({ page }) => {
 
   // Exibir logs do console
   console.log("\n=== Console Logs ===");
-  consoleLogs.forEach(log => console.log(log));
+  for (const log of consoleLogs) console.log(log);
 
   // Verificar se não adicionou ? na URL (sinal de reload)
   expect(url).not.toContain("?");
