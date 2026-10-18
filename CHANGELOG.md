@@ -2,6 +2,13 @@
 
 Todas as mudanças relevantes deste projeto são registradas aqui, seguindo [Conventional Commits](https://www.conventionalcommits.org/) e [SemVer](https://semver.org/).
 
+## [0.0.6] — 2026-10-17
+
+### Corrigido
+
+- Projeto gerado sem avisos de lint (`biome check .`): tipos de verdade no lugar de `any`, guardas no lugar de `!`, `import type` e sem imports ou variáveis sem uso.
+- Sem `console.log` de depuração em `src/` e nos testes e2e; saem os testes e arquivos só de depuração.
+
 ## [0.0.5] — 2026-10-17
 
 ### Corrigido
