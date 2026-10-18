@@ -1,6 +1,6 @@
 import { html, createState } from "@_bashell/slash/core";
 import { taskStore, deleteTask } from "../store/tasks";
-import { TaskStatus } from "../types/task";
+import { type Task, TaskStatus } from "../types/task";
 import styles from "../styles/tasks.module.css";
 
 function getStatusLabel(status: TaskStatus): string {
@@ -55,7 +55,7 @@ export function Tasks() {
       const status = filterState.get().status;
       return status === "all" ? allTasks : allTasks.filter((task) => task.status === status);
     },
-    subscribe: (fn: (tasks: any[]) => void) => {
+    subscribe: (fn: (tasks: Task[]) => void) => {
       const unsubTasks = taskStore.watch(() => fn(filteredTasks.get()));
       const unsubFilter = filterState.watch(() => fn(filteredTasks.get()));
       return () => {
@@ -105,7 +105,7 @@ export function Tasks() {
         </ul>
       `;
     },
-    subscribe: (fn: (content: any) => void) => {
+    subscribe: (fn: (content: unknown) => void) => {
       const unsubTasks = taskStore.watch(() => fn(taskListContent.get()));
       const unsubFilter = filterState.watch(() => fn(taskListContent.get()));
       return () => {
